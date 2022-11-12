@@ -66,7 +66,7 @@ Running on Python 3.8.13
 
 ## Notebook Analysis Summary
 
-Also found in this repo is a [Jupyter Notebook](hawaii_database_analysis.ipynb) that utilizes SQLAlchemy to query the included SQLite database file, and utilizes pandas and matplotlib to make dataframe analysis and visualizations from the SQLAlchemy queries. The queries made are mostly similar to the flask app routing calls. 
+Also found in this repo is a [Jupyter Notebook](hawaii_database_analysis.ipynb) that utilizes SQLAlchemy to query the included SQLite database file, and utilizes pandas and matplotlib to make dataframe analysis and visualizations from the SQLAlchemy queries. The queries made are mostly similar to the flask app routing calls. The visualizations include a bar plot that quantifies the past year of precipitation data in inches starting from the most recent date in the dataset. This range is from 2016-08-23 ~ 2017-08-23. The second visualization found is a histogram that shows the frequency of observed temperature values from the most activate weather station found in the dataset.
 
 
 ## References/Acknowledgements
