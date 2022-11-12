@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
 
 ## Import Flask functions
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, redirect
 
 
 # Create Engine
@@ -43,11 +43,22 @@ def start():
 
     return (start_date)
 
-## The 'Homepage' for the API. Lists the availible routes, and an example URL for the API call that is called for the date range json. 
+def last():
 
-@app.errorhandler(400)
-def bad_request():
-    return "Incorrect URL parameters entered. Please review the formatting and try again.", 400
+    session = Session(engine)
+
+    last = session.query(measurements.date).order_by(measurements.date).first()
+
+    session.close()
+
+    date_str = str(last)
+    last_date = date_str.translate({ord(n): None for n in "(,)''"})
+
+    return (last_date)
+
+
+
+## The 'Homepage' for the API. Lists the availible routes, and an example URL for the API call that is called for the date range json. 
 
 @app.route("/")
 def HomeRoute():
@@ -73,14 +84,19 @@ def HomeRoute():
         "<br/>"
         "<hr>"
         "Calls the average, minimum, and maximum temperature from the dynamically found start of the database until the end.<br/>"
-        f"<code><font size=+2>/api/v1.0/<start>{start()}</font></code><br/>"
+        f"<code><font size=+2>/api/v1.0/<start>{last()}</font></code><br/>"
         "<br/>"
         "<hr>"
         "Calls the average, minimum, and maximum temperature from the user inputed URL date parameters. Example below.<br/>"
         f"<code><font size=+2>/api/v1.0/date_range?start=<i>yyyy-mm-dd</i>&end=<i>yyyy-mm-dd</i></font></code><br/>"
         "<br/>"
 
-        f"<b>Date Range URL Example</b>:<code> api/v1.0/date_range?start=<b>2017-08-23</b>&end=<b>2016-08-23</code></b>"
+        f"<b>Date Range URL Example</b>:<code> api/v1.0/date_range?start=<b>2017-08-23</b>&end=<b>2016-08-23</code></b><br/>"
+        "<hr>"
+        "<br/>"
+        f"Brings the user to the github repo README. Requires an internet connection."
+        "<br/>"
+        f"<code><font size=+2>/api/v1.0/README</code></font>"
     )
 
 ## Alternate route that returns to the availible routes from just the bare API url.
@@ -89,6 +105,11 @@ def HomeRoute():
 def qol():
     return HomeRoute()
 
+## Route that redirects to the github repo README for this project. 
+
+@app.route("/api/v1.0/README")
+def readme():
+    return redirect("https://github.com/Jacob-McM/SQLAlchemy-Flask-app/blob/main/README.md")
 
 ## Route created for the precipitation json. Contains the query needed to get precipitation data from the database. Essentially the same as the query used in the analysis notebook without the date filter.
 
@@ -239,12 +260,12 @@ def temperature():
 ## Route for the displayed json of the average, maximum, and minimum temperature values from the start of the database*, really just all of the temperature data.
 ## The URL is created dynamically based on a function that queries for the start date of the database when called. 
 
-@app.route(f"/api/v1.0/{start()}")
+@app.route(f"/api/v1.0/{last()}")
 def allDates():
 
     session = Session(engine)
 
-    all_temp_results = session.query(func.avg(measurements.tobs),func.max(measurements.tobs),func.min(measurements.tobs)).all()
+    all_temp_results = session.query(func.avg(measurements.tobs),func.max(measurements.tobs),func.min(measurements.tobs)>= last).all()
 
     session.close()
 
