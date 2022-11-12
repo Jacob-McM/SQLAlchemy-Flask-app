@@ -64,7 +64,9 @@ Running on Python 3.8.13
 /api/v1.0/date_range? `start=yyyy-mm-dd&end=yyyy-mm-dd`| This route will run a call based on user inputed URL Parameters. The Parameters are in the code markdown in the route URL here. They are `start=`&`end=`. They must be inputed in the yyyy-mm-dd format as shown, where yyyy is full century year, mm is the zero-padded month, and dd is the zero padded day. For example, `2022-06-21` is a sutible date entry. 06/21/2022 is not. The final URL should look like `/api/v1.0/date_range?start=2015-05-28&end=2015-06-21`. For reference, the range availible for query is `2010-01-01` ~ `2018-8-23` |
 
 
-## 
+## Notebook Analysis Summary
+
+Also found in this repo is a [Jupyter Notebook](hawaii_database_analysis.ipynb) that utilizes SQLAlchemy to query the included SQLite database file, and utilizes pandas and matplotlib to make dataframe analysis and visualizations from the SQLAlchemy queries. The queries made are mostly similar to the flask app routing calls. 
 
 
 ## References/Acknowledgements
