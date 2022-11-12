@@ -31,7 +31,7 @@ Seperated by file, these are the dependencies needed to run either the app.py sc
 |[Flask](https://flask.palletsprojects.com/en/1.1.x/installation/)|1.1.2|
 |[SQLAlchemy](https://docs.sqlalchemy.org/en/14/)|1.4.32|
 
-|Jupyter Notebook||Version|
+|Jupyter Notebook|Version|
 |--------|------------|
 |[Matplotlib](https://matplotlib.org/) |3.5.1|
 |[NumPy](https://numpy.org/)|1.21.5|
